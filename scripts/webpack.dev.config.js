@@ -1,26 +1,19 @@
 var path = require("path");
-var vueLoaderPlugin = require("vue-loader/lib/plugin");
-var htmlWebpackPlugin = require("html-webpack-plugin");
+var merge = require("webpack-merge");
+var baseConfig = require("./webpack.base.config");
 
-module.exports = {
-    entry: path.join(__dirname, '../src/index.js'),
+module.exports = merge(baseConfig, {
+    mode: "development",
+    entry: {
+        index: path.join(__dirname, '../src/index.js'),
+        login: path.join(__dirname, '../src/login/index.js')
+    },
     output: {
-        filename: 'bundle.js',
+        filename: '[name].bundle.js',
         path: path.join(__dirname, '../dist')
     },
     module: {
-        rules: [
-            {
-                test: /\.vue$/,
-                loader: 'vue-loader'
-            }
-        ]
+        rules: []
     },
-    plugins: [
-        new vueLoaderPlugin(),
-        new htmlWebpackPlugin({
-            filename: 'index.html',
-            template: 'src/index.html'
-        })
-    ]
-}
+    plugins: []
+})
