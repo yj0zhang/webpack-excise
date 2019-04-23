@@ -1,12 +1,12 @@
 var path = require("path");
 var merge = require("webpack-merge");
 var baseConfig = require("./webpack.base.config");
+var webpack = require("webpack")
 
 module.exports = merge(baseConfig, {
     mode: "development",
-    entry: {
-        index: path.join(__dirname, '../src/index.js'),
-        login: path.join(__dirname, '../src/login/index.js')
+    devServer: {
+        hot: true
     },
     output: {
         filename: '[name].bundle.js',
@@ -15,5 +15,7 @@ module.exports = merge(baseConfig, {
     module: {
         rules: []
     },
-    plugins: []
+    plugins: [
+        // new webpack.HotModuleReplacementPlugin()
+    ]
 })
