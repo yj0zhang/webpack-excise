@@ -1,9 +1,10 @@
 <template>
     <div>
-        首页
+        {{text}}
         <router-link to="/login">登陆</router-link>
         <el-button type="primary">主要按钮</el-button>
-        <my-button></my-button>
+        <button @click="fetchInfo()">home获取用户信息</button>
+        <my-button :type="'warn'"></my-button>
     </div>
 </template>
 
@@ -16,11 +17,22 @@
 
 
 <script>
-import MyButton from "../../components/Button"
+import { getUserInfo } from "@/api/user";
+import MyButton from "@/components/MyButton"
 export default {
     name: "home",
-    components: [
+    components: {
         MyButton
-    ]
+    },
+    data() {
+        return {
+            text: "首页"
+        }
+    },
+    methods: {
+        fetchInfo: () => {
+            getUserInfo()
+        }
+    }
 }
 </script>

@@ -10,7 +10,7 @@ module.exports = {
   entry: { ...dllUtil.libs },
   output: {
     path: path.join(__dirname, "../vendor"),
-    filename: "[name].vendor.[chunkhash:7].js",
+    filename: "[name].vendor.[chunkhash:8].js",
     library: "[name]"
   },
   module: {
@@ -22,7 +22,7 @@ module.exports = {
             loader: MiniCssExtractPlugin.loader,
             options: {
               publicPath: "../", //同extract-text-webpack-plugin一样,与url-loader里的outputPath对应
-              filename: "[name].[contenthash:7].css"
+              filename: "[name].[contenthash:8].css"
             }
           },
           "css-loader"
@@ -33,7 +33,7 @@ module.exports = {
         loader: "file-loader",
         query: {
           limit: 10000,
-          name: "img/[name].[hash:7].[ext]"
+          name: "img/[name].[hash:8].[ext]"
         }
       },
       {
@@ -41,7 +41,7 @@ module.exports = {
         loader: "file-loader",
         query: {
           limit: 10000,
-          name: "fonts/[name].[hash:7].[ext]"
+          name: "fonts/[name].[hash:8].[ext]"
         }
       }
     ]
@@ -53,7 +53,7 @@ module.exports = {
       name: "[name]",
       context: __dirname
     }),
-    new MiniCssExtractPlugin("[name].[hash:7].css"),
+    new MiniCssExtractPlugin("[name].[hash:8].css"),
     new AssetsPlugin({
       filename: "bundle-config.json",
       path: "./vendor"

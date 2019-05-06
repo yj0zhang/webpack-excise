@@ -1,7 +1,8 @@
 const merge = require("webpack-merge");
 const baseConfig = require("./webpack.base.config");
 const path = require("path");
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+// var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = merge(baseConfig, {
     mode: "development",
@@ -10,12 +11,13 @@ module.exports = merge(baseConfig, {
         path: path.join(__dirname, '../dest')
     },
     devServer: {
-        hot: true
+        hot: true,
+        // contentBase: "./"
     },
     module: {
         rules: []
     },
     plugins: [
-        new ExtractTextPlugin({filename: "[name].css", allChunks: true}),
+        new MiniCssExtractPlugin({filename: "[name].css", allChunks: true}),
     ]
 })

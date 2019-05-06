@@ -4,7 +4,7 @@ const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const bundleConfig = require("../vendor/bundle-config.json")//调入生成的的路径json
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   entry: {
@@ -19,14 +19,14 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: "vue-loader",
-        options: {
-					loaders: {
-						css: ExtractTextPlugin.extract({
-							use: 'css-loader',
-							fallback: 'vue-style-loader'
-						})
-					}
-				}
+        // options: {
+				// 	loaders: {
+				// 		css: ExtractTextPlugin.extract({
+				// 			use: 'css-loader',
+				// 			fallback: 'vue-style-loader'
+				// 		})
+				// 	}
+				// }
       },
       // 这样写，不会抽出样式
       // {
@@ -35,32 +35,42 @@ module.exports = {
       // },
       {
         test: /\.scss$/,
-        use: ExtractTextPlugin.extract({
-					fallback: "vue-style-loader",
-					use: [{
-							loader: 'css-loader',
-							options: {
-								//支持@import引入css
-								importLoaders: 1
-							}
-            },
-            'sass-loader'
-					]
-				})
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              //支持@import引入css
+              importLoaders: 1
+            }
+          },
+          'sass-loader'
+        ],
+        // use: ExtractTextPlugin.extract({
+				// 	fallback: "vue-style-loader",
+				// 	use: [{
+				// 			loader: 'css-loader',
+				// 			options: {
+				// 				//支持@import引入css
+				// 				importLoaders: 1
+				// 			}
+        //     },
+        //     'sass-loader'
+				// 	]
+				// })
       },
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-					fallback: "style-loader",
-					use: [{
-							loader: 'css-loader',
-							options: {
-								//支持@import引入css
-								importLoaders: 1
-							}
-						}
-					]
-				})
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              //支持@import引入css
+              importLoaders: 1
+            }
+          }
+        ]
       },
       {
         test: /\.js$/,
@@ -107,12 +117,13 @@ module.exports = {
   ],
   optimization: {
     // splitChunks: {
-    //   chunks: "all",
-    //   minSize: 30000,
-    //   minChunks: 1,
     //   cacheGroups: {
-    //     app: {
-    //       reuseExistingChunk: true
+    //     commons: {
+    //       chunks: 'initial',
+    //       minChunks: 2,
+    //       maxInitialRequests: 2, // The default limit is too small to showcase the effect
+    //       minSize: 30, // This is example is too small to create commons chunks
+    //       name: 'common'
     //     }
     //   }
     // },
@@ -121,7 +132,8 @@ module.exports = {
   resolve: {
     extensions: [".js", ".vue"],
     alias: {
-      vue$: "vue"
+      vue$: "vue",
+      "@": path.resolve(__dirname, '../src')
     }
   }
 };
