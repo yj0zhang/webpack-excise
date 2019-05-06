@@ -6,12 +6,14 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const bundleConfig = require("../vendor/bundle-config.json")//调入生成的的路径json
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
+const devMode = process.env.NODE_ENV === "development";
+
 module.exports = {
   entry: {
     app: path.join(__dirname, "../src/index.js")
   },
   output: {
-    filename: "[name].bundle.js",
+    filename: devMode?"[name].bundle.js":"[name].bundle.[hash:8].js",
     path: path.join(__dirname, "../dest")
   },
   module: {
@@ -19,14 +21,6 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: "vue-loader",
-        // options: {
-				// 	loaders: {
-				// 		css: ExtractTextPlugin.extract({
-				// 			use: 'css-loader',
-				// 			fallback: 'vue-style-loader'
-				// 		})
-				// 	}
-				// }
       },
       // 这样写，不会抽出样式
       // {
@@ -46,18 +40,6 @@ module.exports = {
           },
           'sass-loader'
         ],
-        // use: ExtractTextPlugin.extract({
-				// 	fallback: "vue-style-loader",
-				// 	use: [{
-				// 			loader: 'css-loader',
-				// 			options: {
-				// 				//支持@import引入css
-				// 				importLoaders: 1
-				// 			}
-        //     },
-        //     'sass-loader'
-				// 	]
-				// })
       },
       {
         test: /\.css$/,
@@ -79,7 +61,7 @@ module.exports = {
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2)$/,
-        loader: "file-loader",
+        loader: "url-loader",
         options: {
           limit: 10000,
           name: "fonts/[name].[ext]"
@@ -106,6 +88,7 @@ module.exports = {
       manifest: require("../vendor/element-manifest.json"),
       context: __dirname
     }),
+    new MiniCssExtractPlugin({filename: devMode?"[name].css":"[name].[chunkhash:8].css", allChunks: true}),
     new HtmlWebpackPlugin({
       filename: "index.html",
       template: "src/index.html",

@@ -21,7 +21,7 @@ module.exports = {
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              publicPath: "../", //同extract-text-webpack-plugin一样,与url-loader里的outputPath对应
+              // publicPath: "../", //同extract-text-webpack-plugin一样,与url-loader里的outputPath对应
               filename: "[name].[contenthash:8].css"
             }
           },
@@ -30,7 +30,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-        loader: "file-loader",
+        loader: "url-loader",
         query: {
           limit: 10000,
           name: "img/[name].[hash:8].[ext]"
@@ -38,7 +38,7 @@ module.exports = {
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-        loader: "file-loader",
+        loader: "url-loader",
         query: {
           limit: 10000,
           name: "fonts/[name].[hash:8].[ext]"
