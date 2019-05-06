@@ -2,6 +2,8 @@
     <div>
         首页
         <router-link to="/login">登陆</router-link>
+        <el-button type="primary">主要按钮</el-button>
+        <my-button></my-button>
     </div>
 </template>
 
@@ -14,7 +16,11 @@
 
 
 <script>
+import MyButton from "../../components/Button"
 export default {
-    name: "home"
+    name: "home",
+    components: [
+        MyButton
+    ]
 }
 </script>
