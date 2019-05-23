@@ -121,6 +121,7 @@ module.exports = {
           name: 'element-ui',
           test: /[\\/]node_modules[\\/]element-ui[\\/]/,
           priority: 20,
+          //虽然在cacheGroups下已经写了chunks: 'all'，但是这里如果不加的话，还是会把element-ui打包进app，不知道为什么，vendor同理
           chunks: 'all',
         }
       }
