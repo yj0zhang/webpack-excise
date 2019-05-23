@@ -1,8 +1,9 @@
 <template>
     <div>
         登陆
-        <router-link to="/home">home</router-link>
-        <button @click="fetchInfo()">获取用户信息</button>
+        <router-link to="/home">home</router-link><br>
+        <!-- <button @click="fetchInfo()">获取用户信息</button><br> -->
+        <el-button @click="fetchInfo()">获取用户信息</el-button>
         <my-button></my-button>
     </div>
 </template>

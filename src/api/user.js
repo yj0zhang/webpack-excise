@@ -1,8 +1,7 @@
 import axios from "axios";
 
-const url = "/api/user"
+const url = "/api/employer/user"
 
 export function getUserInfo() {
-    alert(url)
     return axios.get(url);
 }

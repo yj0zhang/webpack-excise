@@ -5,6 +5,7 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const bundleConfig = require("../vendor/bundle-config.json")//调入生成的的路径json
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 const devMode = process.env.NODE_ENV === "development";
 
@@ -78,39 +79,55 @@ module.exports = {
     ]
   },
   plugins: [
+    new BundleAnalyzerPlugin({
+      analyzerPort: 9999
+    }),
     new CleanWebpackPlugin(),
     new VueLoaderPlugin(),
     new webpack.DllReferencePlugin({
-      manifest: require("../vendor/vue-manifest.json"),
-      context: __dirname
-    }),
-    new webpack.DllReferencePlugin({
-      manifest: require("../vendor/element-manifest.json"),
+      manifest: require("../vendor/libs-manifest.json"),
       context: __dirname
     }),
     new MiniCssExtractPlugin({filename: devMode?"[name].css":"[name].[chunkhash:8].css", allChunks: true}),
     new HtmlWebpackPlugin({
       filename: "index.html",
       template: "src/index.html",
-      elementCss: bundleConfig.element.css,
-      elementJs: bundleConfig.element.js,
-      vueJs: bundleConfig.vue.js,
+      libsJs: bundleConfig.libs.js,
       env: "development",
     }),
   ],
   optimization: {
-    // splitChunks: {
-    //   cacheGroups: {
-    //     commons: {
-    //       chunks: 'initial',
-    //       minChunks: 2,
-    //       maxInitialRequests: 2, // The default limit is too small to showcase the effect
-    //       minSize: 30, // This is example is too small to create commons chunks
-    //       name: 'common'
-    //     }
-    //   }
-    // },
-    runtimeChunk: "single"
+    splitChunks: {
+      cacheGroups: {
+        chunks: 'all',
+        common: {
+          test:/[\\/]src[\\/]js[\\/]/,
+          minSize: 10,//要生成的块的最小大小（以字节为单位）
+          minChunks: 1,//其他entry引用次数大于1
+          // name: 'common',
+          reuseExistingChunk: true,
+          maxInitialRequests: 6,// entry文件请求的chunks不应该超过此值
+          // maxAsyncRequests 异步请求的chunks不应该超过此值
+          priority: 10,
+        },
+        vendor: {
+          name: true,
+          test: /[\\/]node_modules[\\/]/,
+          priority: 15,
+          chunks: 'all',
+          reuseExistingChunk: true,
+        },
+        elementUI: {
+          name: 'element-ui',
+          test: /[\\/]node_modules[\\/]element-ui[\\/]/,
+          priority: 20,
+          chunks: 'all',
+        }
+      }
+    },
+    runtimeChunk: {
+      name: 'manifest'
+    }
   },
   resolve: {
     extensions: [".js", ".vue"],

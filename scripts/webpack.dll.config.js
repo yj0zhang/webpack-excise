@@ -4,6 +4,7 @@ const dllUtil = require("./dll-util");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const AssetsPlugin = require("assets-webpack-plugin"); // 生成文件名，配合HtmlWebpackPlugin增加打包后dll的缓存
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 module.exports = {
   mode: "production",
@@ -47,6 +48,7 @@ module.exports = {
     ]
   },
   plugins: [
+    // new BundleAnalyzerPlugin(),
     new CleanWebpackPlugin(),
     new webpack.DllPlugin({
       path: path.join(__dirname, "../vendor", "[name]-manifest.json"),

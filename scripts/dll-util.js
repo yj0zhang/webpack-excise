@@ -1,7 +1,6 @@
 module.exports = {
     libs: {
-        vue: ["vue", "vue-router"],
-        element: ["element-ui", "element-ui/lib/theme-chalk/index.css"]
+        libs: ["vue", "vue-router", "vuex", "axios"]
     },
     getManifest: (name) => {
         return `${name}-manifest.json`;

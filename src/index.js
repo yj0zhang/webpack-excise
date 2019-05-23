@@ -1,12 +1,13 @@
 import Vue from "vue";
 import App from "./app";
 import vueRouter from "vue-router";
-// import ElementUI from "element-ui";
-// import 'element-ui/lib/theme-chalk/index.css'
-import {routes} from "./routes/index";
+//element整个包太大了，按需引入
+import { Button, Select } from "element-ui";
+import { routes } from "./routes/index";
 
 Vue.use(vueRouter);
-// Vue.use(ElementUI);
+Vue.use(Button)
+Vue.use(Select)
 
 const router = new vueRouter({
     mode: 'history',
