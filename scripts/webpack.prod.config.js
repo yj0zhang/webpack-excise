@@ -6,7 +6,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 module.exports = merge(baseConfig, {
     mode: "production",
     output: {
-        publicPath: "./"
+        publicPath: "https://cdn.zyj.com/"//静态文件路径，一般是静态服务器的地址
     },
     plugins: [],
     optimization: {

@@ -79,9 +79,9 @@ module.exports = {
     ]
   },
   plugins: [
-    new BundleAnalyzerPlugin({
-      analyzerPort: 9999
-    }),
+    // new BundleAnalyzerPlugin({
+    //   analyzerPort: 9999
+    // }),
     new CleanWebpackPlugin(),
     new VueLoaderPlugin(),
     new webpack.DllReferencePlugin({
