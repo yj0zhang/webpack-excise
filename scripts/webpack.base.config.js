@@ -65,7 +65,7 @@ module.exports = {
         loader: "url-loader",
         options: {
           limit: 10000,
-          name: "fonts/[name].[ext]"
+          name: devMode?"fonts/[name].[ext]":"fonts/[name].[hash:8].[ext]"
         }
       },
       {
@@ -73,7 +73,7 @@ module.exports = {
         loader: "url-loader",
         options: {
           limit: 10000,
-          name: "image/[name].[ext]"
+          name: devMode?"image/[name].[ext]":"image/[name].[hash:8].[ext]"
         }
       }
     ]
