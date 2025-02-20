@@ -2,11 +2,17 @@ const { tplReplace } = require("../utils");
 
 function tplLoader(source) {
   source = source.replace(/\s+/g, "");
+
+  const { log } = this.getOptions();
+  const _log = log
+    ? `console.log('compiled the file which is from ${this.resourcePath}')`
+    : "";
   //返回脚本字符串，交给下一个插件（babel）处理
   //${tplReplace.toString()} 把函数声明放在导出的字符串中
   return `
         export default (options) => {
             ${tplReplace.toString()}
+            ${_log.toString()}
             return tplReplace('${source}', options)
         }
     `;
