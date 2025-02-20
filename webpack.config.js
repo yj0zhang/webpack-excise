@@ -10,13 +10,14 @@
 
 const { resolve } = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MdToHtmlPlugin = require("./plugins/md-to-html-plugin");
 
 module.exports = {
   mode: "development",
   entry: resolve(__dirname, "src/app.js"),
   output: {
     path: resolve(__dirname, "dist"),
-    filename: "[name].js",
+    filename: "app.js",
   },
   devtool: "source-map",
   resolveLoader: {
@@ -42,6 +43,11 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: resolve(__dirname, "index.html"),
+    }),
+    //把test.md解析转成test.html
+    new MdToHtmlPlugin({
+      template: resolve(__dirname, "test.md"),
+      filename: "test.html",
     }),
   ],
   devServer: {
